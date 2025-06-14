@@ -1,0 +1,53 @@
+C:\Users\anush\anaconda3
+
+step 0: CREATING THE TABLE
+
+create table crop_production (id serial primary key, state varchar(50),year int, crop varchar(50),area_hectare float, production_tonnes float);
+
+
+STEP 0.1: INSERTING DATA INTO THE TABLE
+
+insert into crop_production (state, year, crop, area_hectare, production_tonnes) values ('Chhattisgarh', 2021, 'rice', 1200000, 4000000),
+('Punjab', 2021, 'wheat', 900000, 3500000),
+('Maharashtra', 2021, 'sugarcane', 750000, 4200000),
+('Bihar', 2020, 'maize', 600000, 2200000),
+('Madhya Pradesh', 2021, 'soybean', 800000, 1500000),
+('Tamil Nadu', 2020, 'rice',700000, 2400000),
+('Chhattisgarh', 2020, 'paddy', 1150000, 3850000),
+('Gujarat', 2021, 'cotton', 650000, 1250000),
+('Karnataka', 2021, 'millets', 500000, 800000),
+('West Bengal', 2021, 'jute', 300000, 950000);
+
+STEP 1: TOTAL AREA UNDER CULTIVATION BY STATE
+
+select state, sum(area_hectare) as total_area
+from crop_production
+group by state
+order by total_area desc;
+
+STEP 2: TOTAL PRODUCTION BY CROP
+
+select crop, sum(production_tonnes)
+as total_production
+from crop_production
+group by crop
+order by total_production desc;
+
+STEP 3: YIELD PER HECTARE
+
+select crop,
+round((sum(production_tonnes) * 1.0 / sum(area_hectare))::numeric, 2) AS yield_per_hectare
+from crop_production
+group by crop
+order by yield_per_hectare desc;
+
+STEP 4: YEARLY CROP PRODUCTION
+
+select year, crop, sum(production_tonnes) as yearly_production
+from crop_production
+group by year, crop
+order by year, yearly_production desc;
+
+
+
+
